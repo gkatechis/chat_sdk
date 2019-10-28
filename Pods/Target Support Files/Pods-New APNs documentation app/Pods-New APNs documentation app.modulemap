@@ -1,0 +1,6 @@
+framework module Pods_New_APNs_documentation_app {
+  umbrella header "Pods-New APNs documentation app-umbrella.h"
+
+  export *
+  module * { export * }
+}
