@@ -7,17 +7,51 @@
 //
 
 import UIKit
+import ZDCChat
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        ZDCLog.enable(true)
+        ZDCLog.setLogLevel(.debug)
+        ZDCChat.initialize(withAccountKey: "3nZeyfeHx9K9zvwmTB08mQFXOIbvDOrn")
+        #if !TARGET_IPHONE_SIMULATOR
+        UNUserNotificationCenter.current().requestAuthorization(options: [UNAuthorizationOptions.alert,UNAuthorizationOptions.sound,UNAuthorizationOptions.badge]) {
+            [weak self] granted, _ in
+                print("Permission granted: \(granted)")
+                // Get notified about new notifications from UNUserNotificationCenter
+                UNUserNotificationCenter.current().delegate = self
+            
+            
+                // Register for remote push notifications
+                UIApplication.shared.registerForRemoteNotifications()
+        }
+        #endif
         return true
     }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        // Register Chat SDK for Push Notifications
+        ZDCChat.setPushToken(deviceToken)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        ZDCChat.didReceiveRemoteNotification(userInfo)
+    }
+    
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
+    }
+}
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -42,5 +76,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
-}
+
 
