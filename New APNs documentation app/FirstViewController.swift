@@ -16,15 +16,15 @@ class FirstViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        let visitorCell = ZDCVisitorChatCell.appearance() as ZDCVisitorChatCell
-        visitorCell.textColor = .black
-        
-        let chatView = ZDCChatView.appearance() as ZDCChatView
-        chatView.backgroundColor = .black
-
-        let loadingView = ZDCLoadingView.appearance() as ZDCLoadingView
-        loadingView.loadingBackgroundColor = .cyan
-        loadingView.loadingLabelTextColor = .blue
+//        let visitorCell = ZDCVisitorChatCell.appearance() as ZDCVisitorChatCell
+//        visitorCell.textColor = .black
+//        
+//        let chatView = ZDCChatView.appearance() as ZDCChatView
+//        chatView.backgroundColor = .black
+//
+//        let loadingView = ZDCLoadingView.appearance() as ZDCLoadingView
+//        loadingView.loadingBackgroundColor = .cyan
+//        loadingView.loadingLabelTextColor = .blue
         
         
 //         // loading the chat
